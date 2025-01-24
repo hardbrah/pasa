@@ -110,7 +110,7 @@ pasa/checkpoints
 ```bash
 git clone git@github.com:hyc2026/transformers.git
 cd transformers
-pip3 install -e .
+pip install -e .
 cd ..
 pip install -r requirements.txt
 ```
@@ -135,11 +135,11 @@ We modify the code of `trl` and `transformers`, you can do SFT and PPO training 
 ```bash
 git clone git@github.com:hyc2026/trl.git
 cd trl
-pip3 install -e .
+pip install -e .
 cd ..
 git clone git@github.com:hyc2026/transformers.git
 cd transformers
-pip3 install -e .
+pip install -e .
 cd ..
 pip install -r requirements.txt
 ```
