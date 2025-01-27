@@ -43,7 +43,7 @@ AutoScholarQuery is a synthetic but high-quality dataset of academic queries and
 
 RealScholarQuery is a test dataset consisting of 50 real-world and fine-grained research queries raised by AI researchers to use the system. The answers to each query are identified as comprehensively as possible by the professional annotators through various retrieval methods.
 
-## Expirements
+## Experiments
 
 ### Baselines
 
