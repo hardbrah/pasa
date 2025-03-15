@@ -1,0 +1,8 @@
+Please extract only the titles of the papers from the following reference list. Do not include any additional information such as authors, publication year, or journal name. Just return the titles of the papers in json format.
+Return the data in this exact JSON format:
+[
+​	"Full title of cited paper 1",
+​	"Full title of cited paper 2",
+​	...
+]
+[在这里插入论文文献]

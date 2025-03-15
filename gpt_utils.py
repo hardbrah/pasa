@@ -60,9 +60,27 @@ def get_arxiv_html(entry_id):
         print(f"[Error] ar5iv 访问失败: {e}")
         return None
 
+def call_gpt4o(prompt):
+    """
+    Call GPT-4o and return the response
+    :param prompt: The prompt to send to GPT
+    :return: GPT response
+    """
+    return call_LLM(
+        prompt,
+        model="gpt-4o-2024-11-20",
+        key=os.getenv("GPT_API_KEY"),
+        url=os.getenv("GPT_BASE_URL")
+    )
+def call_ds32b(prompt):
+    return call_LLM(
+        prompt,
+        model=os.getenv("DS_R1_MODEL_32B"),
+        key=os.getenv("DS_API_KEY"),
+        url=os.getenv("DS_API_BASE_URL"))
 def search_section_by_arxiv_id_by_LLM(arxiv_id):
     """
-    通过 arXiv ID 获取论文章节信息，并调用 GPT-4o 解析正确的引用论文标题
+    通过 arXiv ID 获取论文章节信息，并调用 LLM 解析正确的引用论文标题
     """
     # # 1. 获取 HTML
     html_content = get_arxiv_html(arxiv_id)
@@ -116,7 +134,8 @@ def search_section_by_arxiv_id_by_LLM(arxiv_id):
     # 拼接提示词和论文内容
     prompt = prompt_template.replace("[在这里插入完整论文内容]", json.dumps(sections, indent=2, ensure_ascii=False))
     
-    gpt_response = call_LLM(prompt)
+    gpt_response = call_ds32b(prompt)
+    
     if not gpt_response:
         return None
     
