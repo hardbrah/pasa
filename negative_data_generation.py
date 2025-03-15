@@ -19,7 +19,7 @@ def get_cited_arxiv_id(arxiv_id):
         cited_arxiv_id = search_arxiv_id_by_title(random_title)
         
         if cited_arxiv_id:  # 成功获取到 arxiv_id
-            print(f"Successfully found arxiv_id for {random_title}: {cited_arxiv_id}")
+            # print(f"Successfully found arxiv_id for {random_title}: {cited_arxiv_id}")
             return cited_arxiv_id
         
         # 失败则移除该论文，继续尝试
@@ -43,7 +43,7 @@ def extract_paper_titles_from_llm_response(llm_response):
         cited_papers = json.loads(cleaned_json)
         return cited_papers
     except json.JSONDecodeError as e:
-        Warning.warning(f"JSON 解析错误: {e}")
+        # Warning.warning(f"JSON 解析错误: {e}")
         return None
 
 
@@ -63,7 +63,7 @@ def get_cited_papers(arxiv_id):
     if bib_section:
         sections = {"References": bib_section.get_text(" ", strip=True)[:3000]}
     else:
-        print(f"No references section found in paper {arxiv_id}")
+        # print(f"No references section found in paper {arxiv_id}")
         return None
 
     # 读取提示词模板
@@ -71,7 +71,7 @@ def get_cited_papers(arxiv_id):
         with open("./prompt/get_reference.txt", "r", encoding="utf-8") as f:
             prompt_template = f.read()
     except Exception as e:
-        print(f"[Error] 读取提示词模板失败: {e}")
+        # print(f"[Error] 读取提示词模板失败: {e}")
         return None
 
     # Replace placeholder in prompt template with the references section text
@@ -83,7 +83,7 @@ def get_cited_papers(arxiv_id):
     # 4. Extract titles of cited papers from LLM's response
     cited_papers = extract_paper_titles_from_llm_response(llm_response)
     if not cited_papers:  # 如果解析失败，则返回 None
-        Warning.warning("Failed to extract cited papers from LLM response.")
+        # Warning.warning("Failed to extract cited papers from LLM response.")
         return None
 
     return cited_papers
