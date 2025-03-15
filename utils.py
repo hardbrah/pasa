@@ -28,9 +28,10 @@ import zipfile
 import warnings
 import requests
 from datetime   import datetime
+from gpt_utils import search_section_by_arxiv_id_by_LLM
 warnings.simplefilter("always")
 
-GOOGLE_KEY   = 'your google keys'
+GOOGLE_KEY   = '0d8265613c091abbfd920f52e8b4937dece72d0b'
 arxiv_client = arxiv.Client(delay_seconds = 0.05)
 id2paper     = json.load(open("data/paper_database/id2paper.json"))
 paper_db     = zipfile.ZipFile("data/paper_database/cs_paper_2nd.zip", "r")
@@ -247,6 +248,9 @@ def parse_html(html_file):
     return document 
 
 def search_section_by_arxiv_id(entry_id, cite):
+    return search_section_by_arxiv_id_by_LLM(entry_id)
+
+def search_section_by_arxiv_id2(entry_id, cite):
     warnings.warn("Using search_section_by_arxiv_id function may return wrong title because ar5iv parsing citation error. To solve this, You can prompt any LLM to extract the paper title from the reference string")
     assert re.match(r'^\d+\.\d+$', entry_id)
     url = f'https://ar5iv.labs.arxiv.org/html/{entry_id}'
@@ -254,6 +258,8 @@ def search_section_by_arxiv_id(entry_id, cite):
         response = requests.get(url)
         if response.status_code == 200:
             html_content = response.text
+            with open("test.txt", "w", encoding="utf-8") as f:
+                f.write(html_content)
             if not 'https://ar5iv.labs.arxiv.org/html' in html_content:
                 warnings.warn(f'Invalid ar5iv HTML document: {url}')
                 return None
@@ -471,6 +477,8 @@ def cal_micro(pred_set, label_set):
     return tp, fp, fn
 
 if __name__ == "__main__":
-    print(search_section_by_arxiv_id("2307.00235", r"~\\cite\{(.*?)\}"))
+    # print(search_section_by_arxiv_id("2307.00235", r"~\\cite\{(.*?)\}"))
+    print(search_section_by_arxiv_id("2501.10120", r"~\\cite\{(.*?)\}"))
+    # print(search_section_by_arxiv_id("1811.10322", r"~\\cite\{(.*?)\}"))
     # print(search_paper_by_arxiv_id("2307.00235"))
     # print(search_paper_by_title("A hybrid approach to CMB lensing reconstruction on all-sky intensity maps"))

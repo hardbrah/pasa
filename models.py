@@ -12,12 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from transformers import AutoModelForCausalLM, AutoTokenizer
-
+import torch
 class Agent:
     def __init__(self, model_name):
         self.model = AutoModelForCausalLM.from_pretrained(
             model_name,
-            torch_dtype="auto",
+            torch_dtype=torch.bfloat16,
+            # torch_dtype="auto",
             device_map="auto"
         )
         self.tokenizer = AutoTokenizer.from_pretrained(
