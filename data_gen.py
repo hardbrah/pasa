@@ -55,7 +55,7 @@ def generate_selector_prompt(question, arxiv_id):
     :return: tuple (prompt, paper_info)
     """
     try:
-        with open('./text/selector_p2.txt', 'r', encoding='utf-8') as f:
+        with open('./prompt/selector_p2.txt', 'r', encoding='utf-8') as f:
             raw_prompt = f.read().strip()
     except FileNotFoundError:
         logging.error("Unable to read the prompt file selector_p2.txt!")
@@ -100,6 +100,7 @@ def process_queries(num_queries=10):
 
         question, answer_arxiv_id_list = query_data
         answer_arxiv_id = random.choice(answer_arxiv_id_list)
+        answer_arxiv_id = re.sub(r'v\d+$', '', answer_arxiv_id)
         prompt_data = generate_selector_prompt(question, answer_arxiv_id)
 
         if prompt_data is None:
@@ -144,4 +145,4 @@ if __name__ == "__main__":
     output_dir = './decision'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)        
-    process_queries(num_queries=1)
+    process_queries(num_queries=1000)
