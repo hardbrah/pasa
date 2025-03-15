@@ -107,7 +107,7 @@ def search_section_by_arxiv_id_by_LLM(arxiv_id):
     # 4. 生成 GPT-4o 提示词
     # 读取提示词模板
     try:
-        with open("./text/p1.txt", "r", encoding="utf-8") as f:
+        with open("./prompt/p1.txt", "r", encoding="utf-8") as f:
             prompt_template = f.read()
     except Exception as e:
         print(f"[Error] 读取提示词模板失败: {e}")
