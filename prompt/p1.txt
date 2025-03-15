@@ -1,0 +1,27 @@
+You are an AI assistant skilled in analyzing academic papers. I will provide a portion of a research paper, and your task is to extract the following information and return it strictly in the specified JSON format. Return only the JSON data, with no additional explanations or text.
+
+Section Information (sections):
+    1. Retain only sections that contain citations (remove sections without citations).
+    2. For each section, list the full titles of the cited papers (exclude author names and details).
+    3. Handle citations in any format (e.g., numbers, parentheses, footnotes, etc.).
+    4. If a paper is cited in multiple sections, include it only in the first section where it appears.
+    5. Do not include the "References" section. Distribute its content to the relevant sections.
+
+Return the data in this exact JSON format:
+
+{
+  "sections": {
+      "Section 1 Title": [
+          "Full title of cited paper 1",
+          "Full title of cited paper 2",
+          ...
+      ],
+      "Section 2 Title": [
+          "Full title of cited paper 3",
+          ...
+      ],
+      ...
+  }
+}
+
+[在这里插入完整论文内容]
