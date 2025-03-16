@@ -202,4 +202,4 @@ if __name__ == "__main__":
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)        
     # process_queries(num_queries=200)
-    do_parallel(process_queries, (50,),10)
+    do_parallel(process_queries, (60,),10)
