@@ -7,9 +7,11 @@ from gpt_utils import call_gpt4o
 from dotenv import load_dotenv
 from negative_data_generation import get_cited_arxiv_id
 import re
-
+import threading
 # Load environment variables
 load_dotenv()
+
+file_lock = threading.Lock()
 
 # Set up logging
 from datetime import datetime
@@ -21,6 +23,15 @@ logging.basicConfig(
     encoding='utf-8' 
 )
 
+@staticmethod
+def do_parallel(func, args, num):
+    threads = []
+    for _ in range(num):
+        thread = threading.Thread(target=func, args=args)
+        thread.start()
+        threads.append(thread)
+    for thread in threads:
+        thread.join()
 
 def random_entry():
     """
@@ -179,8 +190,9 @@ def process_gpt_response(prompt, question, paper_info, true_file, false_file, qu
     }
 
     # Write the result as a JSON line to the output file
-    with open(output_file, "a", encoding="utf-8") as f:
-        f.write(json.dumps(result, ensure_ascii=False) + "\n")
+    with file_lock:
+        with open(output_file, "a", encoding="utf-8") as f:
+            f.write(json.dumps(result, ensure_ascii=False) + "\n")
 
     return response
 
@@ -189,4 +201,5 @@ if __name__ == "__main__":
     output_dir = './decision'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)        
-    process_queries(num_queries=200)
+    # process_queries(num_queries=200)
+    do_parallel(process_queries, (2,),8)
