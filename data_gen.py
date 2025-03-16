@@ -141,7 +141,8 @@ def find_cited_arxiv_id(answer_arxiv_id, answer_arxiv_id_list):
     """
     cited_arxiv_id = get_cited_arxiv_id(answer_arxiv_id)
     while cited_arxiv_id is None and len(answer_arxiv_id_list) > 1:
-        answer_arxiv_id_list.remove(answer_arxiv_id)
+        if answer_arxiv_id in answer_arxiv_id_list:
+            answer_arxiv_id_list.remove(answer_arxiv_id)
         answer_arxiv_id = random.choice(answer_arxiv_id_list)
         cited_arxiv_id = get_cited_arxiv_id(answer_arxiv_id)
     return cited_arxiv_id
@@ -156,10 +157,16 @@ def process_gpt_response(prompt, question, paper_info, true_file, false_file, qu
         return None
 
     decision_line = response.split("\n")[0].strip()
-    if decision_line.startswith("**Decision:** True"):
+    if decision_line.startswith("**Decision:** True") \
+    or decision_line.startswith("**Decision**: True") \
+    or decision_line.startswith("True") \
+    or decision_line.startswith("Decision: True"):
         decision = "True"
         output_file = true_file
-    elif decision_line.startswith("**Decision:** False"):
+    elif decision_line.startswith("**Decision:** False") \
+    or decision_line.startswith("**Decision**: False") \
+    or decision_line.startswith("False") \
+    or decision_line.startswith("Decision: False"):
         decision = "False"
         output_file = false_file
     else:
@@ -182,4 +189,4 @@ if __name__ == "__main__":
     output_dir = './decision'
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)        
-    process_queries(num_queries=1)
+    process_queries(num_queries=200)
