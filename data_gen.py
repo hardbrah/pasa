@@ -19,7 +19,7 @@ timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 logging.basicConfig(
     filename=f"./log/process_log_{timestamp}.txt", 
     level=logging.INFO, 
-    format="%(asctime)s - %(levelname)s - %(message)s",
+    format="%(asctime)s - %(levelname)s - [Thread-%(thread)d] (%(threadName)s) - %(message)s",
     encoding='utf-8' 
 )
 
@@ -27,7 +27,7 @@ logging.basicConfig(
 def do_parallel(func, args, num):
     threads = []
     for _ in range(num):
-        thread = threading.Thread(target=func, args=args)
+        thread = threading.Thread(target=func, args=args,name=f"Thread-{_}")
         thread.start()
         threads.append(thread)
     for thread in threads:
@@ -202,4 +202,4 @@ if __name__ == "__main__":
     if not os.path.exists(output_dir):
         os.makedirs(output_dir)        
     # process_queries(num_queries=200)
-    do_parallel(process_queries, (2,),8)
+    do_parallel(process_queries, (50,),10)
