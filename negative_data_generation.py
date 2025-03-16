@@ -61,7 +61,7 @@ def get_cited_papers(arxiv_id):
     # Find references section
     bib_section = soup.find("section", class_="ltx_bibliography")
     if bib_section:
-        sections = {"References": bib_section.get_text(" ", strip=True)[:3000]}
+        sections = {"References": bib_section.get_text(" ", strip=True)[:2000]}
     else:
         # print(f"No references section found in paper {arxiv_id}")
         return None
