@@ -23,7 +23,7 @@ right_predict = 0
 all_predict = 0
 def process_queries():
     try:
-        with open('./prompt/selector_p2.txt', 'r', encoding='utf-8') as f:
+        with open('../prompt/selector_p2.txt', 'r', encoding='utf-8') as f:
             raw_prompt = f.read().strip()
     except FileNotFoundError:
         logging.error("Unable to read the prompt file selector_p2.txt!")
